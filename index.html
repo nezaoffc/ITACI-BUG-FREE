@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITACT CRASH FREE v2.2</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: brightness(0.4);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(139,0,0,0.3));
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #ff0000;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            background: #000;
+            position: relative;
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            color: #fff;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #fff;
+        }
+
+        .app-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255,0,0,0.5);
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .role-badge {
+            background: linear-gradient(45deg, #8b0000, #ff0000);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(255,0,0,0.3);
+        }
+
+        .input-section {
+            background: rgba(0,0,0,0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,0,0,0.3);
+            box-shadow: 0 0 20px rgba(255,0,0,0.1);
+        }
+
+        .input-title {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+            text-align: center;
+        }
+
+        .phone-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(20,0,0,0.5);
+            border: 1px solid rgba(255,0,0,0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .phone-input:focus {
+            outline: none;
+            border-color: #ff0000;
+            box-shadow: 0 0 10px rgba(255,0,0,0.3);
+        }
+
+        .example {
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+        }
+
+        .bug-section {
+            background: rgba(0,0,0,0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,0,0,0.3);
+            box-shadow: 0 0 20px rgba(255,0,0,0.1);
+        }
+
+        .bug-title {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+            text-align: center;
+        }
+
+        .bug-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bug-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: rgba(20,0,0,0.5);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .bug-option:hover {
+            background: rgba(40,0,0,0.7);
+            border-color: rgba(255,0,0,0.3);
+        }
+
+        .bug-option.selected {
+            background: rgba(60,0,0,0.7);
+            border-color: #ff0000;
+        }
+
+        .bug-radio {
+            margin-right: 10px;
+            accent-color: #ff0000;
+        }
+
+        .bug-label {
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #8b0000, #ff0000);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 0 15px rgba(255,0,0,0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,0,0,0.5);
+        }
+
+        .social-section {
+            background: rgba(0,0,0,0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,0,0,0.3);
+            box-shadow: 0 0 20px rgba(255,0,0,0.1);
+            text-align: center;
+        }
+
+        .social-title {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(45deg, #25D366, #128C7E);
+        }
+
+        .youtube-btn {
+            background: linear-gradient(45deg, #FF0000, #CC0000);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .social-info {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .music-section {
+            background: rgba(0,0,0,0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,255,100,0.3);
+            box-shadow: 0 0 20px rgba(0,255,100,0.1);
+        }
+
+        .music-title {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: #6bff8c;
+            text-align: center;
+        }
+
+        .music-player {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .music-btn {
+            padding: 10px 15px;
+            background: rgba(0,20,0,0.5);
+            border: 1px solid rgba(0,255,100,0.3);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .music-btn:hover {
+            background: rgba(0,40,0,0.7);
+            border-color: #00ff64;
+        }
+
+        .music-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .music-item {
+            padding: 10px;
+            background: rgba(0,20,0,0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .music-item:hover {
+            background: rgba(0,40,0,0.5);
+        }
+
+        .music-item.playing {
+            background: rgba(0,60,0,0.7);
+            border-left: 3px solid #00ff64;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            color: #999;
+        }
+
+        .status {
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .code-display {
+            background: rgba(0,0,0,0.7);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            text-align: center;
+            letter-spacing: 2px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Scrollbar styling */
+        .music-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .music-list::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.3);
+            border-radius: 3px;
+        }
+
+        .music-list::-webkit-scrollbar-thumb {
+            background: rgba(0,255,100,0.5);
+            border-radius: 3px;
+        }
+
+        .music-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,255,100,0.7);
+        }
+
+        /* Logo glow animation */
+        @keyframes logoGlow {
+            0% {
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            }
+        }
+
+        .logo-container {
+            animation: logoGlow 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <video class="video-bg" autoplay muted loop>
+        <source src="https://nauval.cloud/download/upload_1763283853707.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <div class="header">
+            <!-- Logo Baru -->
+            <div class="logo-container">
+                <img src="https://api.deline.web.id/jb5q8lx7uI.jpg" alt="ITACI CRASH FREE Logo" class="logo">
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-link">YT: @Achaoffc</a>
+                <a href="#" class="social-link">TT: @Acha_official</a>
+            </div>
+            <h1 class="app-title">ITACI CRASH FREE</h1>
+            <p class="subtitle">MEMBER FREE BUG NEW VERSION 2</p>
+            <div class="role-badge">ROLE: MEMBER FREE BUG | EXP: PERMANENT</div>
+        </div>
+
+        <div class="input-section">
+            <div class="input-title">NUMBER WHATSAPP</div>
+            <input type="text" class="phone-input" placeholder="Contoh: +62xxxxxxxxxx">
+            <div class="example">Contoh: +6281234567890</div>
+        </div>
+
+        <div class="bug-section">
+            <div class="bug-title">PILIH BUG</div>
+            <div class="bug-options">
+                <div class="bug-option" onclick="selectBug(this)">
+                    <input type="radio" name="bug" class="bug-radio">
+                    <span class="bug-label">Delay Invisible</span>
+                </div>
+                <div class="bug-option" onclick="selectBug(this)">
+                    <input type="radio" name="bug" class="bug-radio">
+                    <span class="bug-label">Blank Chat</span>
+                </div>
+                <div class="bug-option" onclick="selectBug(this)">
+                    <input type="radio" name="bug" class="bug-radio">
+                    <span class="bug-label">Sedot Kuota</span>
+                </div>
+                <div class="bug-option" onclick="selectBug(this)">
+                    <input type="radio" name="bug" class="bug-radio">
+                    <span class="bug-label">Crash Hard</span>
+                </div>
+            </div>
+            <button class="submit-btn" onclick="executeBug()">
+                <i class="fas fa-paper-plane"></i> KIRIM BUG
+            </button>
+        </div>
+
+        <div class="status" id="status">
+            System Ready - Pilih bug dan masukkan nomor
+        </div>
+
+        <div class="social-section">
+            <div class="social-title">SUPPORT DEVELOPER</div>
+            <div class="social-buttons">
+                <a href="https://whatsapp.com/channel/0029VbAeB8wAojYyGtloEf3G" class="social-btn whatsapp-btn" target="_blank">
+                    <i class="fab fa-whatsapp"></i> FOLLOW SALURAN WHATSAPP
+                </a>
+                <a href="https://youtube.com/@achaoffc?si=FcLJJfEjg8VBY01D" class="social-btn youtube-btn" target="_blank">
+                    <i class="fab fa-youtube"></i> SUBSCRIBE YOUTUBE
+                </a>
+            </div>
+            <div class="social-info">
+                Telegram: @achaaMarket<br>
+                YouTube: @Achaoffc
+            </div>
+        </div>
+
+        <div class="music-section">
+            <div class="music-title">MUSIC PLAYER</div>
+            <div class="music-player">
+                <div class="music-controls">
+                    <button class="music-btn" onclick="playMusic()"><i class="fas fa-play"></i></button>
+                    <button class="music-btn" onclick="pauseMusic()"><i class="fas fa-pause"></i></button>
+                    <button class="music-btn" onclick="stopMusic()"><i class="fas fa-stop"></i></button>
+                </div>
+                <div class="music-list">
+                    <div class="music-item" onclick="selectMusic(0)">1. Duka</div>
+                    <div class="music-item" onclick="selectMusic(1)">2. Mojang Priangan</div>
+                    <div class="music-item" onclick="selectMusic(2)">3. Blue - Yungkai</div>
+                    <div class="music-item" onclick="selectMusic(3)">4. Inside Intel</div>
+                    <div class="music-item" onclick="selectMusic(4)">5. Surat Cinta Untuk Starla</div>
+                    <div class="music-item" onclick="selectMusic(5)">6. Monolog</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="code-display">
+            JANGAN LUPA NANTIKAN VERSI 3 NYA! TOLONG JANGAN MENJUAL INI HARGAI KAMI
+        </div>
+
+        <div class="footer">
+            ITACI CRASH FREE v2.2 © 2024 | Developer: @achaaMarket
+        </div>
+    </div>
+
+    <audio id="bgMusic">
+        <!-- Music sources will be set by JavaScript -->
+    </audio>
+
+    <script>
+        // Music data
+        const musicList = [
+            { name: "Duka", url: "https://nauval.cloud/download/upload_1763284219176.mp3" },
+            { name: "Mojang Priangan", url: "https://nauval.cloud/download/upload_1763284245675.mp3" },
+            { name: "Blue - Yungkai", url: "https://nauval.cloud/download/upload_1763284971962.mp3" },
+            { name: "Inside Intel", url: "https://raw.githubusercontent.com/Nex-Core/Uploader-Media/main/audio-only/Maxiau.mp3" },
+            { name: "Surat Cinta Untuk Starla", url: "https://nauval.cloud/download/upload_1763284403763.mp4" },
+            { name: "Monolog", url: "https://nauval.cloud/download/upload_1763284467548.mp4" }
+        ];
+
+        let currentMusicIndex = 0;
+        const audioPlayer = document.getElementById('bgMusic');
+        const musicItems = document.querySelectorAll('.music-item');
+        const statusElement = document.getElementById('status');
+
+        // Initialize first music
+        audioPlayer.src = musicList[0].url;
+        musicItems[0].classList.add('playing');
+
+        // Music functions
+        function selectMusic(index) {
+            currentMusicIndex = index;
+            audioPlayer.src = musicList[index].url;
+            
+            // Update UI
+            musicItems.forEach(item => item.classList.remove('playing'));
+            musicItems[index].classList.add('playing');
+            
+            // Auto play
+            audioPlayer.play().catch(e => {
+                statusElement.textContent = "Klik play untuk memulai musik";
+            });
+            
+            statusElement.textContent = `Now Playing: ${musicList[index].name}`;
+        }
+
+        function playMusic() {
+            audioPlayer.play().catch(e => {
+                statusElement.textContent = "Klik salah satu lagu terlebih dahulu";
+            });
+            statusElement.textContent = `Playing: ${musicList[currentMusicIndex].name}`;
+        }
+
+        function pauseMusic() {
+            audioPlayer.pause();
+            statusElement.textContent = "Music Paused";
+        }
+
+        function stopMusic() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            statusElement.textContent = "Music Stopped";
+        }
+
+        // Bug functions
+        function selectBug(element) {
+            document.querySelectorAll('.bug-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            element.querySelector('.bug-radio').checked = true;
+        }
+
+        function executeBug() {
+            const phoneInput = document.querySelector('.phone-input');
+            const phone = phoneInput.value.trim();
+            const selectedBug = document.querySelector('.bug-option.selected');
+            
+            if (!phone) {
+                statusElement.textContent = "ERROR: Masukkan nomor telepon terlebih dahulu!";
+                statusElement.style.color = "#ff4444";
+                return;
+            }
+            
+            if (!selectedBug) {
+                statusElement.textContent = "ERROR: Pilih jenis bug terlebih dahulu!";
+                statusElement.style.color = "#ff4444";
+                return;
+            }
+            
+            const bugType = selectedBug.querySelector('.bug-label').textContent;
+            
+            statusElement.textContent = `Memproses ${bugType} untuk ${phone}...`;
+            statusElement.style.color = "#ff6b6b";
+            
+            // Simulate processing
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 20;
+                statusElement.textContent = `Memproses ${bugType}... ${progress}%`;
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    statusElement.textContent = `SUKSES! ${bugType} berhasil dijalankan untuk ${phone}`;
+                    statusElement.style.color = "#66ff66";
+                    
+                    // Reset after 5 seconds
+                    setTimeout(() => {
+                        statusElement.textContent = "System Ready - Pilih bug dan masukkan nomor";
+                        statusElement.style.color = "#fff";
+                        phoneInput.value = "";
+                        document.querySelectorAll('.bug-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                            opt.querySelector('.bug-radio').checked = false;
+                        });
+                    }, 5000);
+                }
+            }, 500);
+        }
+
+        // Auto-play video background
+        document.querySelector('.video-bg').play();
+
+        // Initialize with first bug selected
+        document.querySelector('.bug-option').click();
+
+        // Add event listener for audio ended
+        audioPlayer.addEventListener('ended', function() {
+            // Play next song
+            currentMusicIndex = (currentMusicIndex + 1) % musicList.length;
+            selectMusic(currentMusicIndex);
+        });
+
+        // Handle logo load error
+        document.querySelector('.logo').addEventListener('error', function() {
+            this.src = 'https://via.placeholder.com/120x120/ff0000/000000?text=LOGO';
+            this.alt = 'Logo tidak dapat dimuat';
+        });
+    </script>
+</body>
+</html>
